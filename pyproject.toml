@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sf-shortest-path-simulation"
+version = "1.0.0"
+description = "Dijkstra-based shortest-path simulation for San Francisco landmarks under normal and rush-hour traffic scenarios."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Annelise Thorn" },
+  { name = "Juliana Zweng" }
+]
+keywords = ["graph", "dijkstra", "simulation", "traffic", "shortest-path"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research"
+]
+
+[project.scripts]
+sf-shortest-path = "sf_shortest_path_simulation.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

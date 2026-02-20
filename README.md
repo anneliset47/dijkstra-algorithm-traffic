@@ -1,88 +1,100 @@
 # San Francisco Shortest Path Simulation
 
-Implementation of Dijkstra’s Algorithm to compute the fastest driving route between major San Francisco landmarks under normal and rush-hour traffic conditions.
+[![CI](https://github.com/anneliset47/sf-shortest-path-simulation/actions/workflows/ci.yml/badge.svg)](https://github.com/anneliset47/sf-shortest-path-simulation/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Project Overview
+Recruiter-ready Python project that models route optimization between San Francisco landmarks using Dijkstra’s algorithm under two conditions:
+- **Scenario 1 (Base Case):** average travel times
+- **Scenario 2 (Rush Hour):** stochastic congestion + low-probability high-impact events
 
-This project models route optimization using graph theory and shortest-path algorithms. 
+The original notebook implementation has been converted into a reusable Python package and CLI for cleaner engineering practices and reproducible runs.
 
-We simulate travel between 10 major San Francisco landmarks and determine the fastest route from **Twin Peaks** to the **Golden Gate Bridge** using:
+## Why this project matters
 
-- Dijkstra’s Algorithm
-- Priority Queues and Min-Heaps
-- Weighted Graph Structures
-- Stochastic Traffic Simulation
+This project demonstrates practical software engineering and algorithmic skills:
+- graph modeling with weighted adjacency maps
+- shortest-path optimization with a heap-based Dijkstra implementation
+- uncertainty modeling with probabilistic simulation
+- reproducible experimentation via deterministic random seeds
+- packaging, testing, and CLI ergonomics for maintainability
 
-Two scenarios are analyzed:
-1. Base Case (Average Traffic)
-2. Rush Hour Traffic with Randomized Congestion Events
+## Results snapshot
 
-## Scenario 1: Base Case (Average Conditions)
+- **Base shortest path (A → J):** `A -> D -> I -> J`
+- **Base travel time:** `20` minutes
+- **Rush-hour travel time:** varies by seed/simulation
 
-- Driving times between landmarks were collected from Google Maps.
-- The city map was represented as a weighted graph.
-- Dijkstra’s Algorithm was used to compute the shortest travel time.
+## Repository structure
 
-### Result
+```text
+.
+├── notebooks/
+│   ├── sf_shortest_path_simulation.ipynb
+│   └── sf_shortest_path_simulation.py   # converted script
+├── report/
+│   └── sf_shortest_path_simulation_report.pdf
+├── src/
+│   └── sf_shortest_path_simulation/
+│       ├── __init__.py
+│       ├── simulation.py                # core graph + simulation logic
+│       └── cli.py                       # command-line interface
+├── tests/
+│   └── test_simulation.py
+├── pyproject.toml
+└── README.md
+```
 
-Shortest route:
-A → D → I → J
+## Quickstart
 
-Travel time: **20 minutes**
+### 1) Create and activate a virtual environment
 
-Manual calculations confirmed the algorithm’s result.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-## Scenario 2: Rush Hour Simulation
+### 2) Install the project
 
-To model realistic congestion:
+```bash
+pip install -e .
+```
 
-- Traffic weights were modified using a **normal distribution** (mean = 2, SD = 0.5).
-- A **20% probability high-impact event** was introduced.
-- Edge weights were dynamically adjusted per simulation run.
+### 3) Run the simulation
 
-### Example Result
+```bash
+sf-shortest-path --source A --target J --seed 42
+```
 
-Shortest route under traffic:
-A → D → I → J
+### Optional: JSON output + edge-level event details
 
-Travel time: **51 minutes**
+```bash
+sf-shortest-path --source A --target J --seed 42 --output json
+sf-shortest-path --source A --target J --seed 42 --show-edge-events
+```
 
-Each simulation run produces different weights and outcomes.
+## Reproducibility
 
-## Technical Implementation
+- Rush-hour randomness is controlled through `--seed`.
+- Running with the same seed yields identical rush-hour edge weights.
+- Unit tests verify both deterministic base-path behavior and seeded reproducibility.
 
-### Data Structures Used
+Run tests:
 
-- Dictionary-based graph representation
-- Min-Heap (heapq)
-- Priority Queue
-- Sets for visited nodes
+```bash
+python -m unittest discover -s tests -v
+```
 
-### Algorithm
+## Engineering notes
 
-Dijkstra’s Algorithm:
+- Core algorithm and simulation logic live in `src/sf_shortest_path_simulation/simulation.py`.
+- CLI parsing and output formatting live in `src/sf_shortest_path_simulation/cli.py`.
+- The notebook conversion entrypoint is `notebooks/sf_shortest_path_simulation.py`.
 
-1. Initialize distances (source = 0, others = ∞)
-2. Use priority queue to select smallest-distance node
-3. Relax edges
-4. Update distances
-5. Repeat until all nodes are visited
+## Authoring
 
-## Key Concepts Demonstrated
-
-- Graph modeling
-- Shortest-path optimization
-- Heap-based priority queues
-- Stochastic simulation
-- Manual algorithm validation
-- Algorithm scalability analysis
-
-## Future Improvements
-
-- Return full path, not just travel time
-- Add visualization of selected route
-- Extend to larger graph datasets
-- Compare with A* search algorithm
+- Annelise Thorn
+- Juliana Zweng
 
 
 
